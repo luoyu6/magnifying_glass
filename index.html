@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" type="text/css" href="css/default.css" />
+		<title></title>
+
+		<style type="text/css">
+			body {
+				background: #111;
+			}
+			
+			.simg {
+				width: 180px;
+				height: 180px;
+				position: relative;
+			}
+			
+			.limg {
+				width: 400px;
+				height: 400px;
+				margin-left: 10px;
+				overflow: hidden;
+			}
+			
+			.move_span {
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				background: blue;
+				opacity: 0.5;
+				top: 0;
+				left: 0;
+			}
+			
+			.limg {
+				position: relative;
+				background: red;
+			}
+			
+			.limg img {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="" style="margin: 100px;">
+			<!--小图片-->
+			<div class="simg fl">
+				<img src="http://images.huxiu.com/article/cover/201601/05/081021633001.jpg" width="180" height="180" />
+				<span class="move_span"></span>
+			</div>
+			<!--大图片-->
+			<div class="limg fl">
+				<img src="http://images.huxiu.com/article/cover/201601/05/081021633001.jpg">
+
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//小盒子
+		var simgDom = document.getElementsByClassName('simg')[0];
+		var spanDom = document.getElementsByClassName('simg')[0].children[1];
+		//simg的宽
+		var simgDom_wid = simgDom.offsetWidth;
+		var simgDom_hei = simgDom.offsetHeight;
+
+		//大盒子left
+		var simgDom_left = simgDom.offsetLeft;
+		var simgDom_top = simgDom.offsetTop;
+		//span宽
+		var span_wid = spanDom.offsetWidth;
+		var span_hei = spanDom.offsetHeight;
+
+		//大盒子
+		var limg_boxDom = document.getElementsByClassName('limg')[0];
+		//大图片
+		var limgDom = document.getElementsByClassName('limg')[0].children[0];
+		//大盒子limg宽
+		var limg_box_wid = limg_boxDom.offsetWidth;
+		var limg_box_hei = limg_boxDom.offsetHeight;
+		//大图片宽
+		var limg_wid = limgDom.offsetWidth;
+		var limg_hei = limgDom.offsetHeight;
+
+		//		console.log(simgDom);
+
+		simgDom.onmousemove = function(e) {
+			//鼠标的位置
+			var left = e.clientX || e.pageX;
+			var top = e.clientY || e.pageY;
+
+			//span的left
+			var spanDom_left = left - simgDom_left - span_wid / 2;
+			var spanDom_top = top - simgDom_top - span_hei / 2;
+
+			//span最大left
+			var span_max_left = simgDom_wid - span_wid;
+			var span_max_top = simgDom_hei - span_hei;
+
+			//		如果spanDom_left大于最大的left
+			if(spanDom_left > span_max_left) spanDom_left = span_max_left;
+
+			//		如果spanDom_left小于0
+			if(spanDom_left < 0) spanDom_left = 0;
+
+			//		如果spanDom_top大于最大的top
+			if(spanDom_top > span_max_top) spanDom_top = span_max_top;
+
+			//		如果spanDom_top小于0
+			if(spanDom_top < 0) spanDom_top = 0;
+
+			spanDom.style.left = spanDom_left + "px";
+			spanDom.style.top = spanDom_top + "px";
+
+			//移动的比率
+			var left_bit = spanDom_left / span_max_left;
+			var top_bit = spanDom_top / span_max_top;
+
+			//大图片的left
+			var limg_left = left_bit * (limgDom.offsetWidth - limgDom.parentElement.offsetWidth) * -1 + 'px';
+			var limg_top = top_bit * (limgDom.offsetHeight - limgDom.parentElement.offsetHeight) * -1 + 'px';
+
+			limgDom.style.left = limg_left;
+			limgDom.style.top = limg_top;
+			//			console.log(left_bit * (limg_wid - limg_box_wid) * -1);
+
+			//			console.log(left_bit + "--" + limg_left);
+			//			console.log(top_bit + "===" + limg_top);
+			//			console.log(limgDom.parentElement);
+
+		}
+	</script>
+
+</html>
